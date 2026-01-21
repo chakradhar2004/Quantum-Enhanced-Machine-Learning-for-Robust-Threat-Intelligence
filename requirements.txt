@@ -1,0 +1,16 @@
+ 
+lightgbm
+scikit-learn
+pandas
+numpy
+matplotlib
+seaborn
+xgboost
+tensorflow
+keras
+qiskit
+pennylane
+tldextract
+shap
+watchdog
+streamlit
