@@ -1,0 +1,13 @@
+{
+  "hash": "9e60393da455f93b0ec32cf124432651",
+  "hash_type": "md5",
+  "timestamp": "2026-02-06T12:18:52.022906",
+  "sources": {
+    "database": {
+      "status": "found",
+      "threat_name": "Malware.Dropper",
+      "threat_type": "Dropper",
+      "severity": "critical"
+    }
+  }
+}

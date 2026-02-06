@@ -1,0 +1,665 @@
+[
+  {
+    "scan_type": "domain",
+    "target": "google.com",
+    "result": "UNKNOWN",
+    "confidence": 0.0,
+    "ml_prediction": "UNKNOWN",
+    "quantum_analysis": {
+      "method": "quantum_simulation",
+      "anomaly_score": 0.1371162235736847,
+      "quantum_confidence": 0.8794175982475281,
+      "anomaly_level": "LOW",
+      "is_anomalous": false,
+      "quantum_features": {
+        "entanglement_measure": 1.0564597845077515,
+        "quantum_entropy": 0.7787303924560547
+      }
+    },
+    "vt_detections": null,
+    "file_hash": null,
+    "additional_info": {
+      "features": {
+        "length": 6,
+        "entropy": 1.9182958340544896,
+        "vowel_ratio": 0.5,
+        "digit_ratio": 0.0,
+        "consonant_ratio": 0.5
+      }
+    },
+    "timestamp": "2026-02-05T23:53:37.957666"
+  },
+  {
+    "scan_type": "domain",
+    "target": "hackers.com",
+    "result": "BENIGN",
+    "confidence": 0.2910133852770567,
+    "ml_prediction": "BENIGN",
+    "quantum_analysis": {
+      "method": "quantum_simulation",
+      "anomaly_score": 0.13174529373645782,
+      "quantum_confidence": 0.8835909962654114,
+      "anomaly_level": "LOW",
+      "is_anomalous": false,
+      "quantum_features": {
+        "entanglement_measure": 1.0830142498016357,
+        "quantum_entropy": 0.7298811674118042
+      }
+    },
+    "vt_detections": null,
+    "file_hash": null,
+    "additional_info": {
+      "features": {
+        "length": 7,
+        "entropy": 2.8073549220576037,
+        "vowel_ratio": 0.2857142857142857,
+        "digit_ratio": 0.0,
+        "consonant_ratio": 0.7142857142857143
+      }
+    },
+    "timestamp": "2026-02-06T09:51:59.961490"
+  },
+  {
+    "scan_type": "file",
+    "target": "data\\samples\\fake_malware.exe",
+    "result": null,
+    "confidence": 0.0,
+    "ml_prediction": null,
+    "quantum_analysis": null,
+    "vt_detections": null,
+    "file_hash": "c8d51917c2a53700e770a525381d4683e329f9f99dd3f00101c74cc8cedc0172",
+    "additional_info": {
+      "file_size_mb": 0.48828125,
+      "hashes": {
+        "md5": "3da4384ad9e56deae93599c4a82cc307",
+        "sha1": "549a46cdf9c07f585fbcd64bd857e09cef81e39c",
+        "sha256": "c8d51917c2a53700e770a525381d4683e329f9f99dd3f00101c74cc8cedc0172"
+      }
+    },
+    "timestamp": "2026-02-06T10:07:16.484731"
+  },
+  {
+    "scan_type": "file",
+    "target": "data\\samples\\fake_malware.exe",
+    "result": null,
+    "confidence": 0.0,
+    "ml_prediction": null,
+    "quantum_analysis": null,
+    "vt_detections": null,
+    "file_hash": "c8d51917c2a53700e770a525381d4683e329f9f99dd3f00101c74cc8cedc0172",
+    "additional_info": {
+      "file_size_mb": 0.48828125,
+      "hashes": {
+        "md5": "3da4384ad9e56deae93599c4a82cc307",
+        "sha1": "549a46cdf9c07f585fbcd64bd857e09cef81e39c",
+        "sha256": "c8d51917c2a53700e770a525381d4683e329f9f99dd3f00101c74cc8cedc0172"
+      }
+    },
+    "timestamp": "2026-02-06T10:10:51.664730"
+  },
+  {
+    "scan_type": "file",
+    "target": "data\\samples\\fake_malware1.exe",
+    "result": null,
+    "confidence": 0.0,
+    "ml_prediction": null,
+    "quantum_analysis": null,
+    "vt_detections": null,
+    "file_hash": "99d16bce46400afa251bc350e09f19d9b39ccb163d71a785bd6538b9b611c05c",
+    "additional_info": {
+      "file_size_mb": 0.48828125,
+      "hashes": {
+        "md5": "4faa314b0a42cc88e0febd6dcdec5761",
+        "sha1": "49180ca758c2fd735482616493f5380d39868f1f",
+        "sha256": "99d16bce46400afa251bc350e09f19d9b39ccb163d71a785bd6538b9b611c05c"
+      }
+    },
+    "timestamp": "2026-02-06T10:12:55.327054"
+  },
+  {
+    "scan_type": "file",
+    "target": "data\\samples\\fake_malware1.exe",
+    "result": null,
+    "confidence": 0.0,
+    "ml_prediction": null,
+    "quantum_analysis": null,
+    "vt_detections": null,
+    "file_hash": "99d16bce46400afa251bc350e09f19d9b39ccb163d71a785bd6538b9b611c05c",
+    "additional_info": {
+      "file_size_mb": 0.48828125,
+      "hashes": {
+        "md5": "4faa314b0a42cc88e0febd6dcdec5761",
+        "sha1": "49180ca758c2fd735482616493f5380d39868f1f",
+        "sha256": "99d16bce46400afa251bc350e09f19d9b39ccb163d71a785bd6538b9b611c05c"
+      }
+    },
+    "timestamp": "2026-02-06T11:09:01.392664"
+  },
+  {
+    "scan_type": "file",
+    "target": "data\\samples\\fake_malware1.exe",
+    "result": "UNKNOWN",
+    "confidence": 0.0,
+    "ml_prediction": "UNKNOWN",
+    "quantum_analysis": {
+      "method": "quantum_simulation",
+      "anomaly_score": 0.007533340249210596,
+      "quantum_confidence": 0.9925230145454407,
+      "anomaly_level": "LOW",
+      "is_anomalous": false,
+      "quantum_features": {
+        "entanglement_measure": 1.005037784576416,
+        "quantum_entropy": 0.2848320007324219
+      }
+    },
+    "vt_detections": null,
+    "file_hash": "99d16bce46400afa251bc350e09f19d9b39ccb163d71a785bd6538b9b611c05c",
+    "additional_info": {
+      "file_size_mb": 0.48828125,
+      "hashes": {
+        "md5": "4faa314b0a42cc88e0febd6dcdec5761",
+        "sha1": "49180ca758c2fd735482616493f5380d39868f1f",
+        "sha256": "99d16bce46400afa251bc350e09f19d9b39ccb163d71a785bd6538b9b611c05c"
+      }
+    },
+    "timestamp": "2026-02-06T11:10:47.359440"
+  },
+  {
+    "scan_type": "file",
+    "target": "data\\samples\\fake_malware1.exe",
+    "result": "UNKNOWN",
+    "confidence": 0.0,
+    "ml_prediction": "UNKNOWN",
+    "quantum_analysis": {
+      "method": "quantum_simulation",
+      "anomaly_score": 0.007533340077651174,
+      "quantum_confidence": 0.992522986805508,
+      "anomaly_level": "LOW",
+      "is_anomalous": false,
+      "quantum_features": {
+        "entanglement_measure": 1.005037784576416,
+        "quantum_entropy": 0.2848320007324219
+      }
+    },
+    "vt_detections": null,
+    "file_hash": "99d16bce46400afa251bc350e09f19d9b39ccb163d71a785bd6538b9b611c05c",
+    "additional_info": {
+      "file_size_mb": 0.48828125,
+      "hashes": {
+        "md5": "4faa314b0a42cc88e0febd6dcdec5761",
+        "sha1": "49180ca758c2fd735482616493f5380d39868f1f",
+        "sha256": "99d16bce46400afa251bc350e09f19d9b39ccb163d71a785bd6538b9b611c05c"
+      }
+    },
+    "timestamp": "2026-02-06T11:11:56.782651"
+  },
+  {
+    "scan_type": "file",
+    "target": "data\\samples\\fake_malware1.exe",
+    "result": "BENIGN",
+    "confidence": 0.03,
+    "ml_prediction": "BENIGN",
+    "quantum_analysis": {
+      "method": "quantum_simulation",
+      "anomaly_score": 0.0022069285897647634,
+      "quantum_confidence": 0.9977979312187851,
+      "anomaly_level": "LOW",
+      "is_anomalous": false,
+      "quantum_features": {
+        "entanglement_measure": 1.7320551872253418,
+        "quantum_entropy": 0.021660849452018738
+      }
+    },
+    "vt_detections": null,
+    "file_hash": "99d16bce46400afa251bc350e09f19d9b39ccb163d71a785bd6538b9b611c05c",
+    "additional_info": {
+      "file_size_mb": 0.48828125,
+      "hashes": {
+        "md5": "4faa314b0a42cc88e0febd6dcdec5761",
+        "sha1": "49180ca758c2fd735482616493f5380d39868f1f",
+        "sha256": "99d16bce46400afa251bc350e09f19d9b39ccb163d71a785bd6538b9b611c05c"
+      }
+    },
+    "timestamp": "2026-02-06T11:12:40.846543"
+  },
+  {
+    "scan_type": "file",
+    "target": "data\\samples\\fake_malware.exe",
+    "result": "BENIGN",
+    "confidence": 0.02,
+    "ml_prediction": "BENIGN",
+    "quantum_analysis": {
+      "method": "quantum_simulation",
+      "anomaly_score": 0.35220614075660706,
+      "quantum_confidence": 0.7395322322845459,
+      "anomaly_level": "LOW",
+      "is_anomalous": false,
+      "quantum_features": {
+        "entanglement_measure": 2.126504421234131,
+        "quantum_entropy": 2.8156557083129883
+      }
+    },
+    "vt_detections": null,
+    "file_hash": "c8d51917c2a53700e770a525381d4683e329f9f99dd3f00101c74cc8cedc0172",
+    "additional_info": {
+      "file_size_mb": 0.48828125,
+      "hashes": {
+        "md5": "3da4384ad9e56deae93599c4a82cc307",
+        "sha1": "549a46cdf9c07f585fbcd64bd857e09cef81e39c",
+        "sha256": "c8d51917c2a53700e770a525381d4683e329f9f99dd3f00101c74cc8cedc0172"
+      }
+    },
+    "timestamp": "2026-02-06T11:13:01.665459"
+  },
+  {
+    "scan_type": "file",
+    "target": "data\\samples\\benign_sample1.exe",
+    "result": "BENIGN",
+    "confidence": 0.03,
+    "ml_prediction": "BENIGN",
+    "quantum_analysis": {
+      "method": "quantum_simulation",
+      "anomaly_score": 0.09873746423160329,
+      "quantum_confidence": 0.9101355260506614,
+      "anomaly_level": "LOW",
+      "is_anomalous": false,
+      "quantum_features": {
+        "entanglement_measure": 1.9616477489471436,
+        "quantum_entropy": 0.8556770086288452
+      }
+    },
+    "vt_detections": null,
+    "file_hash": "37082c3cac6364873ecbc4f74cc59e91579689d179748d3fc04ebbefced35eca",
+    "additional_info": {
+      "file_size_mb": 0.09765625,
+      "hashes": {
+        "md5": "2e4a4f5c5e5617a6b93945159765d986",
+        "sha1": "56dd18dfbfee47e87ce24deb80c735d696a640bd",
+        "sha256": "37082c3cac6364873ecbc4f74cc59e91579689d179748d3fc04ebbefced35eca"
+      }
+    },
+    "timestamp": "2026-02-06T11:17:27.655830"
+  },
+  {
+    "scan_type": "file",
+    "target": "data\\samples\\malware_sample1.exe",
+    "result": "BENIGN",
+    "confidence": 0.02,
+    "ml_prediction": "BENIGN",
+    "quantum_analysis": {
+      "method": "quantum_simulation",
+      "anomaly_score": 0.3336347972645479,
+      "quantum_confidence": 0.7498304648702369,
+      "anomaly_level": "LOW",
+      "is_anomalous": false,
+      "quantum_features": {
+        "entanglement_measure": 2.0756263732910156,
+        "quantum_entropy": 2.7325687408447266
+      }
+    },
+    "vt_detections": null,
+    "file_hash": "29c810e9ee55db642e33e160176b8ee612a32b50ef439324fd44c6c2c11a2260",
+    "additional_info": {
+      "file_size_mb": 0.09765625,
+      "hashes": {
+        "md5": "a0560289f5c26026cdf7dc1617a62e68",
+        "sha1": "f97db912373c351ccee19a0616bd7b39a7de8691",
+        "sha256": "29c810e9ee55db642e33e160176b8ee612a32b50ef439324fd44c6c2c11a2260"
+      }
+    },
+    "timestamp": "2026-02-06T11:17:35.967879"
+  },
+  {
+    "scan_type": "file",
+    "target": "data\\samples\\benign_pe1.exe",
+    "result": "BENIGN",
+    "confidence": 0.03,
+    "ml_prediction": "BENIGN",
+    "quantum_analysis": {
+      "method": "quantum_simulation",
+      "anomaly_score": 0.09164209225598503,
+      "quantum_confidence": 0.9160511554967639,
+      "anomaly_level": "LOW",
+      "is_anomalous": false,
+      "quantum_features": {
+        "entanglement_measure": 1.930618405342102,
+        "quantum_entropy": 0.8069515824317932
+      }
+    },
+    "vt_detections": null,
+    "file_hash": "13275db47fb2102c35fc9918219fb47f1064a6a4c48076738d457f7f415f4dca",
+    "additional_info": {
+      "file_size_mb": 0.00830078125,
+      "hashes": {
+        "md5": "7b3efe79e066fa83ab57894166aa6158",
+        "sha1": "e2c45f444f55cb3973ed7aa2fdb57f68f034666a",
+        "sha256": "13275db47fb2102c35fc9918219fb47f1064a6a4c48076738d457f7f415f4dca"
+      }
+    },
+    "timestamp": "2026-02-06T11:19:23.401170"
+  },
+  {
+    "scan_type": "file",
+    "target": "data\\samples\\malware_pe1.exe",
+    "result": "BENIGN",
+    "confidence": 0.03,
+    "ml_prediction": "BENIGN",
+    "quantum_analysis": {
+      "method": "quantum_simulation",
+      "anomaly_score": 0.30927882475011487,
+      "quantum_confidence": 0.7637792509100245,
+      "anomaly_level": "LOW",
+      "is_anomalous": false,
+      "quantum_features": {
+        "entanglement_measure": 2.007753372192383,
+        "quantum_entropy": 2.618718147277832
+      }
+    },
+    "vt_detections": null,
+    "file_hash": "e740a742fb067429725d7c05139159354709b1e6483a95e2debc0657a6bdda54",
+    "additional_info": {
+      "file_size_mb": 0.01611328125,
+      "hashes": {
+        "md5": "4f783e87554bf763c480d94855d32ac7",
+        "sha1": "3f7acfc9d26814ba2737439823cd0a94e6912dca",
+        "sha256": "e740a742fb067429725d7c05139159354709b1e6483a95e2debc0657a6bdda54"
+      }
+    },
+    "timestamp": "2026-02-06T11:19:39.082471"
+  },
+  {
+    "scan_type": "file",
+    "target": "data\\samples\\benign_windows_1.exe",
+    "result": "BENIGN",
+    "confidence": 0.02,
+    "ml_prediction": "BENIGN",
+    "quantum_analysis": {
+      "method": "quantum_simulation",
+      "anomaly_score": 0.3727707862854004,
+      "quantum_confidence": 0.7284537302151614,
+      "anomaly_level": "LOW",
+      "is_anomalous": false,
+      "quantum_features": {
+        "entanglement_measure": 2.027963876724243,
+        "quantum_entropy": 3.1248600482940674
+      }
+    },
+    "vt_detections": null,
+    "file_hash": "84b484fd3636f2ca3e468d2821d97aacde8a143a2724a3ae65f48a33ca2fd258",
+    "additional_info": {
+      "file_size_mb": 0.34375,
+      "hashes": {
+        "md5": "9e60393da455f93b0ec32cf124432651",
+        "sha1": "633fd6744b1d1d9ad5d46f8e648209bfdfb0c573",
+        "sha256": "84b484fd3636f2ca3e468d2821d97aacde8a143a2724a3ae65f48a33ca2fd258"
+      }
+    },
+    "timestamp": "2026-02-06T11:20:41.422524"
+  },
+  {
+    "scan_type": "file",
+    "target": "data\\samples\\benign_windows_1.exe",
+    "result": "BENIGN",
+    "confidence": 0.02,
+    "ml_prediction": "BENIGN",
+    "quantum_analysis": {
+      "method": "quantum_simulation",
+      "anomaly_score": 0.3727707862854004,
+      "quantum_confidence": 0.7284537553787231,
+      "anomaly_level": "LOW",
+      "is_anomalous": false,
+      "quantum_features": {
+        "entanglement_measure": 2.027963876724243,
+        "quantum_entropy": 3.1248600482940674
+      }
+    },
+    "vt_detections": null,
+    "file_hash": "84b484fd3636f2ca3e468d2821d97aacde8a143a2724a3ae65f48a33ca2fd258",
+    "additional_info": {
+      "file_size_mb": 0.34375,
+      "hashes": {
+        "md5": "9e60393da455f93b0ec32cf124432651",
+        "sha1": "633fd6744b1d1d9ad5d46f8e648209bfdfb0c573",
+        "sha256": "84b484fd3636f2ca3e468d2821d97aacde8a143a2724a3ae65f48a33ca2fd258"
+      }
+    },
+    "timestamp": "2026-02-06T11:21:33.944194"
+  },
+  {
+    "scan_type": "file",
+    "target": "data\\samples\\malware_windows_1.exe",
+    "result": "BENIGN",
+    "confidence": 0.02,
+    "ml_prediction": "BENIGN",
+    "quantum_analysis": {
+      "method": "quantum_simulation",
+      "anomaly_score": 0.372830331325531,
+      "quantum_confidence": 0.7284221053123474,
+      "anomaly_level": "LOW",
+      "is_anomalous": false,
+      "quantum_features": {
+        "entanglement_measure": 2.0283217430114746,
+        "quantum_entropy": 3.124807834625244
+      }
+    },
+    "vt_detections": null,
+    "file_hash": "3d0b4b1c8856cf2d2b77097621b49f0b6185bff274d40f0c493fb13b64f232fd",
+    "additional_info": {
+      "file_size_mb": 0.34375,
+      "hashes": {
+        "md5": "f3470cbdaa3aab3fa0d1f5c33d322340",
+        "sha1": "8e78658c4de5941e515a12855b5b19899e49147b",
+        "sha256": "3d0b4b1c8856cf2d2b77097621b49f0b6185bff274d40f0c493fb13b64f232fd"
+      }
+    },
+    "timestamp": "2026-02-06T11:22:45.843816"
+  },
+  {
+    "scan_type": "file",
+    "target": "data\\samples\\malware_windows_1.exe",
+    "result": "BENIGN",
+    "confidence": 0.02,
+    "ml_prediction": "BENIGN",
+    "quantum_analysis": {
+      "method": "quantum_simulation",
+      "anomaly_score": 0.12704297304153442,
+      "quantum_confidence": 0.887277614003763,
+      "anomaly_level": "LOW",
+      "is_anomalous": false,
+      "quantum_features": {
+        "entanglement_measure": 1.1823407411575317,
+        "quantum_entropy": 0.5372519493103027
+      }
+    },
+    "vt_detections": null,
+    "file_hash": "3d0b4b1c8856cf2d2b77097621b49f0b6185bff274d40f0c493fb13b64f232fd",
+    "additional_info": {
+      "file_size_mb": 0.34375,
+      "hashes": {
+        "md5": "f3470cbdaa3aab3fa0d1f5c33d322340",
+        "sha1": "8e78658c4de5941e515a12855b5b19899e49147b",
+        "sha256": "3d0b4b1c8856cf2d2b77097621b49f0b6185bff274d40f0c493fb13b64f232fd"
+      }
+    },
+    "timestamp": "2026-02-06T11:23:41.716818"
+  },
+  {
+    "scan_type": "file",
+    "target": "data\\samples\\benign_windows_1.exe",
+    "result": "BENIGN",
+    "confidence": 0.02,
+    "ml_prediction": "BENIGN",
+    "quantum_analysis": {
+      "method": "quantum_simulation",
+      "anomaly_score": 0.12708829641342162,
+      "quantum_confidence": 0.8872419340899579,
+      "anomaly_level": "LOW",
+      "is_anomalous": false,
+      "quantum_features": {
+        "entanglement_measure": 1.1825156211853027,
+        "quantum_entropy": 0.53736412525177
+      }
+    },
+    "vt_detections": null,
+    "file_hash": "84b484fd3636f2ca3e468d2821d97aacde8a143a2724a3ae65f48a33ca2fd258",
+    "additional_info": {
+      "file_size_mb": 0.34375,
+      "hashes": {
+        "md5": "9e60393da455f93b0ec32cf124432651",
+        "sha1": "633fd6744b1d1d9ad5d46f8e648209bfdfb0c573",
+        "sha256": "84b484fd3636f2ca3e468d2821d97aacde8a143a2724a3ae65f48a33ca2fd258"
+      }
+    },
+    "timestamp": "2026-02-06T11:23:50.136297"
+  },
+  {
+    "scan_type": "file",
+    "target": "data\\samples\\fake_malware.exe",
+    "result": "BENIGN",
+    "confidence": 0.02,
+    "ml_prediction": "BENIGN",
+    "quantum_analysis": {
+      "method": "qsvc",
+      "prediction": 1,
+      "confidence": 0.589376201461172,
+      "is_anomalous": true,
+      "anomaly_level": "HIGH"
+    },
+    "vt_detections": null,
+    "file_hash": "c8d51917c2a53700e770a525381d4683e329f9f99dd3f00101c74cc8cedc0172",
+    "additional_info": {
+      "file_size_mb": 0.48828125,
+      "hashes": {
+        "md5": "3da4384ad9e56deae93599c4a82cc307",
+        "sha1": "549a46cdf9c07f585fbcd64bd857e09cef81e39c",
+        "sha256": "c8d51917c2a53700e770a525381d4683e329f9f99dd3f00101c74cc8cedc0172"
+      }
+    },
+    "timestamp": "2026-02-06T12:34:49.216727"
+  },
+  {
+    "scan_type": "file",
+    "target": "data\\samples\\fake_malware1.exe",
+    "result": "BENIGN",
+    "confidence": 0.03,
+    "ml_prediction": "BENIGN",
+    "quantum_analysis": {
+      "method": "qsvc",
+      "prediction": 0,
+      "confidence": 0.35533824559616367,
+      "is_anomalous": false,
+      "anomaly_level": "LOW"
+    },
+    "vt_detections": null,
+    "file_hash": "99d16bce46400afa251bc350e09f19d9b39ccb163d71a785bd6538b9b611c05c",
+    "additional_info": {
+      "file_size_mb": 0.48828125,
+      "hashes": {
+        "md5": "4faa314b0a42cc88e0febd6dcdec5761",
+        "sha1": "49180ca758c2fd735482616493f5380d39868f1f",
+        "sha256": "99d16bce46400afa251bc350e09f19d9b39ccb163d71a785bd6538b9b611c05c"
+      }
+    },
+    "timestamp": "2026-02-06T12:37:19.996221"
+  },
+  {
+    "scan_type": "file",
+    "target": "data\\samples\\fake_malware.exe",
+    "result": "BENIGN",
+    "confidence": 0.02,
+    "ml_prediction": "BENIGN",
+    "quantum_analysis": {
+      "method": "qsvc",
+      "prediction": 1,
+      "confidence": 0.589376201461172,
+      "is_anomalous": true,
+      "anomaly_level": "HIGH"
+    },
+    "vt_detections": null,
+    "file_hash": "c8d51917c2a53700e770a525381d4683e329f9f99dd3f00101c74cc8cedc0172",
+    "additional_info": {
+      "file_size_mb": 0.48828125,
+      "hashes": {
+        "md5": "3da4384ad9e56deae93599c4a82cc307",
+        "sha1": "549a46cdf9c07f585fbcd64bd857e09cef81e39c",
+        "sha256": "c8d51917c2a53700e770a525381d4683e329f9f99dd3f00101c74cc8cedc0172"
+      }
+    },
+    "timestamp": "2026-02-06T12:50:33.827548"
+  },
+  {
+    "scan_type": "file",
+    "target": "data\\samples\\malware_pe1.exe",
+    "result": "BENIGN",
+    "confidence": 0.03,
+    "ml_prediction": "BENIGN",
+    "quantum_analysis": {
+      "method": "qsvc",
+      "prediction": 0,
+      "confidence": 0.4988899497692326,
+      "is_anomalous": false,
+      "anomaly_level": "LOW"
+    },
+    "vt_detections": null,
+    "file_hash": "e740a742fb067429725d7c05139159354709b1e6483a95e2debc0657a6bdda54",
+    "additional_info": {
+      "file_size_mb": 0.01611328125,
+      "hashes": {
+        "md5": "4f783e87554bf763c480d94855d32ac7",
+        "sha1": "3f7acfc9d26814ba2737439823cd0a94e6912dca",
+        "sha256": "e740a742fb067429725d7c05139159354709b1e6483a95e2debc0657a6bdda54"
+      }
+    },
+    "timestamp": "2026-02-06T12:51:02.486900"
+  },
+  {
+    "scan_type": "file",
+    "target": "data\\samples\\malware_windows_1.exe",
+    "result": "BENIGN",
+    "confidence": 0.02,
+    "ml_prediction": "BENIGN",
+    "quantum_analysis": {
+      "method": "qsvc",
+      "prediction": 1,
+      "confidence": 0.65524407647128,
+      "is_anomalous": true,
+      "anomaly_level": "HIGH"
+    },
+    "vt_detections": null,
+    "file_hash": "3d0b4b1c8856cf2d2b77097621b49f0b6185bff274d40f0c493fb13b64f232fd",
+    "additional_info": {
+      "file_size_mb": 0.34375,
+      "hashes": {
+        "md5": "f3470cbdaa3aab3fa0d1f5c33d322340",
+        "sha1": "8e78658c4de5941e515a12855b5b19899e49147b",
+        "sha256": "3d0b4b1c8856cf2d2b77097621b49f0b6185bff274d40f0c493fb13b64f232fd"
+      }
+    },
+    "timestamp": "2026-02-06T12:51:33.128222"
+  },
+  {
+    "scan_type": "file",
+    "target": "data\\samples\\malware_windows_2.exe",
+    "result": "BENIGN",
+    "confidence": 0.02,
+    "ml_prediction": "BENIGN",
+    "quantum_analysis": {
+      "method": "qsvc",
+      "prediction": 1,
+      "confidence": 0.6551149841444774,
+      "is_anomalous": true,
+      "anomaly_level": "HIGH"
+    },
+    "vt_detections": null,
+    "file_hash": "03cd25fd3239f0a2a7fede4249c7268294dfe8d63d6090277eeeee11f4fb3647",
+    "additional_info": {
+      "file_size_mb": 0.34375,
+      "hashes": {
+        "md5": "07ac26eb5be764d822e6a36617046980",
+        "sha1": "998507e4a84a5ff196935042fd87c415da8b2710",
+        "sha256": "03cd25fd3239f0a2a7fede4249c7268294dfe8d63d6090277eeeee11f4fb3647"
+      }
+    },
+    "timestamp": "2026-02-06T12:51:59.486435"
+  }
+]
