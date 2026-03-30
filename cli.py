@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Quantum-Enhanced Threat Intelligence — Unified CLI
 
@@ -13,6 +14,11 @@ import sys
 import logging
 from pathlib import Path
 from datetime import datetime
+
+# Fix Windows console encoding for Unicode output
+if sys.platform == 'win32':
+    import codecs
+    sys.stdout.reconfigure(encoding='utf-8')
 
 import numpy as np
 

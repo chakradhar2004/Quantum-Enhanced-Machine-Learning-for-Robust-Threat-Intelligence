@@ -215,21 +215,62 @@ class DomainFeatureExtractor:
 
 class FileFeatureExtractor:
     """
-    Extracts features from files for malware detection.
-    Produces a consistent 16-feature vector for the EMBER RF model.
+    Extracts EMBER-compatible PE features from files for malware detection.
+    Produces a consistent 16-feature vector matching EMBER RF model training.
+
+    Features (after one-hot encoding of machine type):
+    - file_size
+    - has_signature
+    - machine_type (one-hot: ???, AMD64, ARM, ARMNT, I386, IA64, POWERPC, R4000, SH3, SH4, THUMB)
+    - characteristics_count
+    - histogram_sum
+    - entropy_mean
     """
 
     N_FEATURES = 16
 
+    # Machine types one-hot encoding (11 types total)
+    MACHINE_TYPES = {
+        0x0: 'UNKNOWN',      # ???
+        0x014c: 'I386',
+        0x0160: 'R4000',
+        0x0162: 'ARMNT',
+        0x0168: 'MIPS16',
+        0x0169: 'MIPSFPU',
+        0x016a: 'MIPSFPU16',
+        0x0183: 'SH3',
+        0x0184: 'SH4',
+        0x0185: 'THUMB',
+        0x01c2: 'MIPSX',
+        0x0240: 'ARM64',
+        0x0266: 'MIPS16',
+        0x0366: 'MIPSFPU',
+        0x0466: 'MIPSFPU16',
+        0x0520: 'TRICORE',
+        0x0660: 'HEXAGON',
+        0x0be0: 'ALPHA64',
+        0x0ebc: 'ARM64',
+        0xf32d: 'RISCV32',
+        0xf33d: 'RISCV64',
+        0xf34d: 'RISCV128',
+        0x8664: 'AMD64',
+        0xc0ee: 'CEEMIPS',
+        0x9041: 'M32R',
+        0x4d4d: 'ARM',
+        0xa641: 'ARM64',
+    }
+
+    MACHINE_NAMES_ORDER = ['???', 'AMD64', 'ARM', 'ARMNT', 'I386', 'IA64', 'POWERPC', 'R4000', 'SH3', 'SH4', 'THUMB']
+
     def extract(self, file_path: Path) -> Optional[np.ndarray]:
         """
-        Extract features from a file.
+        Extract EMBER-compatible features from a file.
 
         Args:
             file_path: Path to the file to analyze
 
         Returns:
-            Feature vector shaped (1, 16) or None on failure
+            Feature vector shaped (1, 16) with EMBER-compatible features or None on failure
         """
         file_path = Path(file_path)
 
@@ -241,12 +282,20 @@ class FileFeatureExtractor:
         except Exception:
             return None
 
-        # Try PE-specific extraction first
+        # Try PE-specific extraction using pefile
+        if PEFILE_AVAILABLE:
+            try:
+                pe = pefile.PE(str(file_path), fast_load=True)
+                return self._extract_pe_features_pefile(pe, data)
+            except Exception:
+                pass
+
+        # Try LIEF fallback
         if LIEF_AVAILABLE:
             try:
                 binary = lief.parse(str(file_path))
                 if binary is not None:
-                    return self._extract_pe_features(binary, data)
+                    return self._extract_pe_features_lief(binary, data)
             except Exception:
                 pass
 
@@ -260,64 +309,153 @@ class FileFeatureExtractor:
             raise ValueError(f"File too large: {size} bytes > {max_bytes}")
         return file_path.read_bytes()
 
-    def _extract_pe_features(self, binary, data: bytes) -> np.ndarray:
-        """Extract features from a parsed PE binary using LIEF."""
+    def _extract_pe_features_pefile(self, pe, data: bytes) -> np.ndarray:
+        """Extract EMBER features from PE using pefile library."""
         features = []
-        file_size = len(data)
 
-        # Byte histogram (8 buckets)
-        byte_counts = self._byte_histogram(data, 8)
-        features.extend(byte_counts)
+        # 1. file_size
+        file_size = float(len(data))
+        features.append(file_size)
 
-        # Entropy-based features
+        # 2. has_signature (check for certificate directory)
+        has_signature = 0.0
+        if hasattr(pe, 'DIRECTORY_ENTRY_DEBUG') or \
+           hasattr(pe, 'DIRECTORY_ENTRY_SECURITY'):
+            has_signature = 1.0
+        features.append(has_signature)
+
+        # 3-13. machine type (one-hot encoding 11 types)
+        machine_type = pe.FILE_HEADER.Machine if hasattr(pe, 'FILE_HEADER') else 0
+        machine_name = self._get_machine_name(machine_type)
+
+        for name in self.MACHINE_NAMES_ORDER:
+            features.append(1.0 if machine_name == name else 0.0)
+
+        # 14. characteristics_count
+        characteristics = pe.FILE_HEADER.Characteristics if hasattr(pe, 'FILE_HEADER') else 0
+        char_count = bin(characteristics).count('1')
+        features.append(float(char_count))
+
+        # 15. histogram_sum (should be file_size, but calculating byte histogram sum)
+        features.append(file_size)
+
+        # 16. entropy_mean
         entropy = self._shannon_entropy(data)
-        features.append(entropy / 8.0)
-        features.append(min(file_size / 1_000_000, 1.0))
-        features.append(1.0 if data[:2] == b'MZ' else 0.0)
-        features.append(1.0 if entropy > 7.0 else 0.0)
+        features.append(entropy)
 
-        # Byte pattern features
-        features.append(data.count(b'\x00') / max(file_size, 1))
-        features.append(
-            sum(1 for b in data if 32 <= b <= 126) / max(file_size, 1)
-        )
-        features.append(
-            sum(1 for b in data if b >= 128) / max(file_size, 1)
-        )
-        features.append(len(set(data)) / 256.0)
-
+        # Ensure exactly 16 features
         features = features[:self.N_FEATURES]
         while len(features) < self.N_FEATURES:
             features.append(0.0)
 
         return np.array(features, dtype=np.float32).reshape(1, -1)
 
-    def _extract_generic_features(self, data: bytes) -> np.ndarray:
-        """Extract generic byte-level features from any file."""
+    def _extract_pe_features_lief(self, binary, data: bytes) -> np.ndarray:
+        """Extract EMBER features from PE using LIEF library."""
         features = []
-        file_size = len(data)
 
-        # Byte histogram (8 buckets)
-        byte_counts = self._byte_histogram(data, 8)
-        features.extend(byte_counts)
+        # 1. file_size
+        file_size = float(len(data))
+        features.append(file_size)
 
-        # Entropy and size
+        # 2. has_signature
+        has_signature = 1.0 if binary.has_authenticode() else 0.0
+        features.append(has_signature)
+
+        # 3-13. machine type (one-hot encoding)
+        machine = binary.header.machine if hasattr(binary.header, 'machine') else 0
+        machine_name = self._get_machine_name(machine)
+
+        for name in self.MACHINE_NAMES_ORDER:
+            features.append(1.0 if machine_name == name else 0.0)
+
+        # 14. characteristics_count
+        char_count = len(binary.header.characteristics) if hasattr(binary.header, 'characteristics') else 0
+        features.append(float(char_count))
+
+        # 15. histogram_sum
+        features.append(file_size)
+
+        # 16. entropy_mean
         entropy = self._shannon_entropy(data)
-        features.append(entropy / 8.0)
-        features.append(min(file_size / 1_000_000, 1.0))
-        features.append(1.0 if data[:2] == b'MZ' else 0.0)
-        features.append(1.0 if entropy > 7.0 else 0.0)
+        features.append(entropy)
 
-        # Byte pattern features
-        features.append(data.count(b'\x00') / max(file_size, 1))
-        features.append(
-            sum(1 for b in data if 32 <= b <= 126) / max(file_size, 1)
-        )
-        features.append(
-            sum(1 for b in data if b >= 128) / max(file_size, 1)
-        )
-        features.append(len(set(data)) / 256.0)
+        # Ensure exactly 16 features
+        features = features[:self.N_FEATURES]
+        while len(features) < self.N_FEATURES:
+            features.append(0.0)
 
+        return np.array(features, dtype=np.float32).reshape(1, -1)
+
+    def _get_machine_name(self, machine_type: int) -> str:
+        """Map machine type constant to name."""
+        mapping = {
+            0x0: '???',
+            0x014c: 'I386',
+            0x0160: 'R4000',
+            0x0162: 'ARMNT',
+            0x0183: 'SH3',
+            0x0184: 'SH4',
+            0x0185: 'THUMB',
+            0x0200: 'POWERPC',
+            0x0268: 'ARM',
+            0x0366: 'MIPSFPU',
+            0x0ebc: 'ARM64',
+            0x8664: 'AMD64',
+            0x9041: 'M32R',
+        }
+        if machine_type in mapping:
+            return mapping[machine_type]
+
+        # Try to match by name attribute
+        machine_name_map = {
+            'I386': 'I386',
+            'R4000': 'R4000',
+            'ARMNT': 'ARMNT',
+            'SH3': 'SH3',
+            'SH4': 'SH4',
+            'THUMB': 'THUMB',
+            'POWERPC': 'POWERPC',
+            'ARM': 'ARM',
+            'IA64': 'IA64',
+            'AMD64': 'AMD64',
+        }
+
+        for k, v in machine_name_map.items():
+            if k in str(machine_type).upper():
+                return v
+
+        return '???'
+
+    def _extract_generic_features(self, data: bytes) -> np.ndarray:
+        """Extract generic features when PE parsing fails."""
+        features = []
+        file_size = float(len(data))
+
+        # 1. file_size
+        features.append(file_size)
+
+        # 2. has_signature (check for common signature patterns)
+        has_sig = 1.0 if b'Signature' in data or b'PKCS' in data else 0.0
+        features.append(has_sig)
+
+        # 3-13. machine type (default to ??? for all)
+        for _ in self.MACHINE_NAMES_ORDER:
+            features.append(0.0)
+        features[3] = 1.0  # Set ??? to 1.0
+
+        # 14. characteristics_count (estimate from file structure)
+        char_count = 5.0 if data[:2] == b'MZ' else 0.0
+        features.append(char_count)
+
+        # 15. histogram_sum (file_size)
+        features.append(file_size)
+
+        # 16. entropy_mean
+        entropy = self._shannon_entropy(data)
+        features.append(entropy)
+
+        # Ensure exactly 16 features
         features = features[:self.N_FEATURES]
         while len(features) < self.N_FEATURES:
             features.append(0.0)
