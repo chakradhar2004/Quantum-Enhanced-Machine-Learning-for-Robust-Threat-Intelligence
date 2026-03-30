@@ -1,6 +1,38 @@
-\__pycache__
-\venv
-\models
-\data
-\acaonda_projects
+__pycache__/
+*.pyc
+*.pyo
 
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Model files (large binaries)
+models/
+phase4/models/
+
+# Data files
+data/
+
+# Environment secrets
+.env
+
+# Logs
+logs/
+scanner/logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Misc
+anaconda_projects/
+threat_cache/
+test_scan_directory/

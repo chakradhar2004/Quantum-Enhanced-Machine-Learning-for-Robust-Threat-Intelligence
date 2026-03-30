@@ -1,0 +1,93 @@
+D:\pdfs\anaconda\Lib\site-packages\sklearn\base.py:376: InconsistentVersionWarning: Trying to unpickle estimator DecisionTreeClassifier from version 1.8.0 when using version 1.5.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+D:\pdfs\anaconda\Lib\site-packages\sklearn\base.py:376: InconsistentVersionWarning: Trying to unpickle estimator RandomForestClassifier from version 1.8.0 when using version 1.5.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+D:\pdfs\anaconda\Lib\site-packages\sklearn\base.py:493: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+D:\pdfs\anaconda\Lib\site-packages\sklearn\base.py:493: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+D:\pdfs\anaconda\Lib\site-packages\sklearn\base.py:376: InconsistentVersionWarning: Trying to unpickle estimator DecisionTreeClassifier from version 1.8.0 when using version 1.5.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+D:\pdfs\anaconda\Lib\site-packages\sklearn\base.py:376: InconsistentVersionWarning: Trying to unpickle estimator RandomForestClassifier from version 1.8.0 when using version 1.5.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+D:\pdfs\anaconda\Lib\site-packages\sklearn\base.py:493: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+D:\pdfs\anaconda\Lib\site-packages\sklearn\base.py:493: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+======================================================================
+  QUANTUM-ENHANCED THREAT INTELLIGENCE — ACCURACY EVALUATION
+======================================================================
+
+======================================================================
+1. DOMAIN RANDOM FOREST MODEL
+======================================================================
+[OK] Loaded model from D:\final_year_project\Qunatum-Enhanced_Threat_Intelligence\models\domain_rf_model.pkl
+[OK] Model expects 5 features
+[OK] Loaded 199944 samples from domain_features.csv
+[OK] Train: 159955, Test: 39989
+[OK] Class dist (test): {0: 19989, 1: 20000}
+
+               precision    recall  f1-score   support
+
+   Benign (0)       0.90      0.92      0.91     19989
+Malicious (1)       0.92      0.89      0.91     20000
+
+     accuracy                           0.91     39989
+    macro avg       0.91      0.91      0.91     39989
+ weighted avg       0.91      0.91      0.91     39989
+
+Confusion Matrix:
+[[18463  1526]
+ [ 2128 17872]]
+AUC-ROC: 0.9681
+
+======================================================================
+2. EMBER (MALWARE) RANDOM FOREST MODEL
+======================================================================
+[OK] Loaded model
+[OK] Model expects 16 features
+[OK] Feature names: ['file_size', 'has_signature', 'characteristics_count', 'histogram_sum', 'entropy_mean', 'machine_???', 'machine_AMD64', 'machine_ARM', 'machine_ARMNT', 'machine_I386', 'machine_IA64', 'machine_POWERPC', 'machine_R4000', 'machine_SH3', 'machine_SH4', 'machine_THUMB']
+[OK] Loaded 116051 samples, columns: ['file_size', 'has_signature', 'machine', 'characteristics_count', 'histogram_sum', 'entropy_mean', 'label']
+[OK] One-hot encoded 'machine' -> ['machine_???', 'machine_AMD64', 'machine_ARM', 'machine_ARMNT', 'machine_I386', 'machine_IA64', 'machine_POWERPC', 'machine_R4000', 'machine_SH3', 'machine_SH4', 'machine_THUMB']
+[OK] Aligned to 16 features matching model
+[OK] Train: 92840, Test: 23211
+[OK] Class dist (test): {0: 10468, 1: 12743}
+
+              precision    recall  f1-score   support
+
+  Benign (0)       0.79      0.80      0.80     10468
+ Malware (1)       0.84      0.82      0.83     12743
+
+    accuracy                           0.82     23211
+   macro avg       0.81      0.81      0.81     23211
+weighted avg       0.82      0.82      0.82     23211
+
+Confusion Matrix:
+[[ 8421  2047]
+ [ 2237 10506]]
+AUC-ROC: 0.9043
+
+======================================================================
+3. QUANTUM SVC (QSVC) — TRAINING METADATA
+======================================================================
+  Model:            QSVC
+  Qubits:           4
+  Feature map:      ZZFeatureMap (reps=2)
+  Training samples: 500
+  Test samples:     150
+Traceback (most recent call last):
+  File "D:\final_year_project\Qunatum-Enhanced_Threat_Intelligence\evaluate_accuracy.py", line 286, in <module>
+    main()
+  File "D:\final_year_project\Qunatum-Enhanced_Threat_Intelligence\evaluate_accuracy.py", line 256, in main
+    r = evaluate_qsvc_metadata()
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\final_year_project\Qunatum-Enhanced_Threat_Intelligence\evaluate_accuracy.py", line 189, in evaluate_qsvc_metadata
+    print(f"  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500")
+  File "D:\pdfs\anaconda\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode characters in position 2-30: character maps to <undefined>

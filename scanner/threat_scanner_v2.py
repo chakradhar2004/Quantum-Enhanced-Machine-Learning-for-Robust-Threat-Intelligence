@@ -153,6 +153,45 @@ class FileAnalyzer:
         except Exception as e:
             print(f"Prediction error: {e}")
             return "UNKNOWN", 0.0
+
+    def _heuristic_verdict(self, file_path: Path) -> tuple:
+        """Lightweight fallback when no ML model is available"""
+        data = file_path.read_bytes()
+        size = len(data)
+        if size == 0:
+            return "BENIGN", 0.1
+
+        entropy = self._calculate_entropy(data)
+        mz = 1.0 if data[:2] == b'MZ' else 0.0
+        null_ratio = data.count(b'\x00') / size
+        ascii_ratio = sum(1 for b in data if 32 <= b <= 126) / size
+        high_ratio = sum(1 for b in data if b >= 128) / size
+
+        score = 0
+        if entropy >= 7.2:
+            score += 2
+        elif entropy >= 6.7:
+            score += 1
+
+        if high_ratio >= 0.6:
+            score += 1
+
+        if null_ratio <= 0.02 and size > 200000:
+            score += 1
+
+        if mz > 0 and size < 20000:
+            score += 1
+
+        if ascii_ratio < 0.1 and mz == 0:
+            score += 1
+
+        if score >= 3:
+            return "MALWARE", 0.7
+        if score == 2:
+            return "SUSPICIOUS", 0.6
+        if score == 1:
+            return "SUSPICIOUS", 0.55
+        return "BENIGN", 0.35
     
     def scan_file(self, file_path: str, enable_threat_intel: bool = True) -> Dict[str, Any]:
         """Complete file scan with threat intelligence integration"""
@@ -181,6 +220,8 @@ class FileAnalyzer:
         features = self.extract_pe_features(file_path)
         if features is not None:
             prediction, confidence = self.predict(features)
+            if prediction == "UNKNOWN":
+                prediction, confidence = self._heuristic_verdict(file_path)
             result['prediction'] = prediction
             result['confidence'] = float(confidence)
             
@@ -253,24 +294,15 @@ class FileAnalyzer:
                     confidence = file_result.get('analysis', {}).get('final_confidence',
                                                file_result.get('confidence', 0.0))
                     
-                    # Apply threat level filter
-                    should_include = True
-                    if threat_level_filter == 'malware':
-                        should_include = verdict == 'MALWARE'
-                    elif threat_level_filter == 'suspicious':
-                        should_include = verdict in ['SUSPICIOUS', 'MALWARE']
-                    elif threat_level_filter == 'benign':
-                        should_include = verdict == 'BENIGN'
-                    
-                    if should_include:
-                        results['files_found'].append({
-                            'file': file_path.name,
-                            'path': str(file_path),
-                            'size': file_result.get('size', 0),
-                            'verdict': verdict,
-                            'confidence': float(confidence),
-                            'hashes': file_result.get('hashes', {})
-                        })
+                    # Always add to results regardless of filter
+                    results['files_found'].append({
+                        'file': file_path.name,
+                        'path': str(file_path),
+                        'size': file_result.get('size', 0),
+                        'verdict': verdict,
+                        'confidence': float(confidence),
+                        'hashes': file_result.get('hashes', {})
+                    })
                     
                     # Update summary
                     results['summary']['total'] += 1
@@ -495,7 +527,6 @@ def print_directory_result(result: Dict[str, Any]):
     print("="*80)
     print(f"\nDirectory: {result['directory']}")
     print(f"Files Scanned: {result['files_scanned']}")
-    print(f"Threats Found: {result['total_files_found']}")
     
     summary = result['summary']
     print(f"\nSummary:")
@@ -505,19 +536,65 @@ def print_directory_result(result: Dict[str, Any]):
     print(f"  Benign:         {summary['benign']}")
     print(f"  Unknown:        {summary['unknown']}")
     
-    if result['files_found']:
-        print(f"\nThreat Details:")
+    # Sort files by verdict for better presentation
+    malware_files = [f for f in result['files_found'] if f['verdict'] == 'MALWARE']
+    suspicious_files = [f for f in result['files_found'] if f['verdict'] == 'SUSPICIOUS']
+    benign_files = [f for f in result['files_found'] if f['verdict'] == 'BENIGN']
+    unknown_files = [f for f in result['files_found'] if f['verdict'] == 'UNKNOWN']
+    
+    all_files = malware_files + suspicious_files + benign_files + unknown_files
+    
+    if all_files:
+        print(f"\nFile Details:")
         print("-" * 80)
         
-        for idx, threat in enumerate(result['files_found'], 1):
-            print(f"\n[{idx}] {threat['file']}")
-            print(f"    Path:       {threat['path']}")
-            print(f"    Size:       {threat['size']} bytes")
-            print(f"    Verdict:    {threat['verdict']}")
-            print(f"    Confidence: {threat['confidence']:.1%}")
-            print(f"    SHA256:     {threat['hashes'].get('sha256', 'N/A')[:32]}...")
+        idx = 1
+        
+        # Show malware
+        if malware_files:
+            print(f"\nMALWARE ({len(malware_files)}):")
+            for threat in malware_files:
+                print(f"  [{idx}] {threat['file']}")
+                print(f"      Path:       {threat['path']}")
+                print(f"      Size:       {threat['size']} bytes")
+                print(f"      Confidence: {threat['confidence']:.1%}")
+                print(f"      SHA256:     {threat['hashes'].get('sha256', 'N/A')[:40]}...")
+                idx += 1
+        
+        # Show suspicious
+        if suspicious_files:
+            print(f"\nSUSPICIOUS ({len(suspicious_files)}):")
+            for threat in suspicious_files:
+                print(f"  [{idx}] {threat['file']}")
+                print(f"      Path:       {threat['path']}")
+                print(f"      Size:       {threat['size']} bytes")
+                print(f"      Confidence: {threat['confidence']:.1%}")
+                print(f"      SHA256:     {threat['hashes'].get('sha256', 'N/A')[:40]}...")
+                idx += 1
+        
+        # Show benign
+        if benign_files:
+            print(f"\nBENIGN ({len(benign_files)}):")
+            for threat in benign_files:
+                print(f"  [{idx}] {threat['file']}")
+                print(f"      Path:       {threat['path']}")
+                print(f"      Size:       {threat['size']} bytes")
+                print(f"      Confidence: {threat['confidence']:.1%}")
+                print(f"      SHA256:     {threat['hashes'].get('sha256', 'N/A')[:40]}...")
+                idx += 1
+        
+        # Show unknown
+        if unknown_files:
+            print(f"\nUNKNOWN ({len(unknown_files)}):")
+            for threat in unknown_files:
+                print(f"  [{idx}] {threat['file']}")
+                print(f"      Path:       {threat['path']}")
+                print(f"      Size:       {threat['size']} bytes")
+                print(f"      Confidence: {threat['confidence']:.1%}")
+                print(f"      SHA256:     {threat['hashes'].get('sha256', 'N/A')[:40]}...")
+                idx += 1
     else:
-        print(f"\nNo threats found matching filter criteria.")
+        print(f"\nNo files scanned.")
     
     print("\n" + "="*80)
     print(f"Scan Duration: {result.get('scan_completed', 'N/A')}")

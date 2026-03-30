@@ -1,0 +1,44 @@
+{
+  "domain_rf": {
+    "accuracy": 0.9086748855935383,
+    "precision": 0.9213836477987422,
+    "recall": 0.89365,
+    "f1": 0.9073049393370222
+  },
+  "ember_rf": {
+    "accuracy": 0.8225841195984662,
+    "precision": 0.851782363977486,
+    "recall": 0.8194302754453425,
+    "f1": 0.8352931765458763,
+    "auc_roc": 0.9156034244909455
+  },
+  "average_accuracy": 0.8656295025960022,
+  "weighted_configs": {
+    "Domain:0.3 | EMBER:0.7": {
+      "domain_accuracy": 0.9086748855935383,
+      "ember_accuracy": 0.8225841195984662,
+      "combined_accuracy": 0.8484113493969878
+    },
+    "Domain:0.4 | EMBER:0.6": {
+      "domain_accuracy": 0.9086748855935383,
+      "ember_accuracy": 0.8225841195984662,
+      "combined_accuracy": 0.8570204259964951
+    },
+    "Domain:0.5 | EMBER:0.5": {
+      "domain_accuracy": 0.9086748855935383,
+      "ember_accuracy": 0.8225841195984662,
+      "combined_accuracy": 0.8656295025960022
+    },
+    "Domain:0.6 | EMBER:0.4": {
+      "domain_accuracy": 0.9086748855935383,
+      "ember_accuracy": 0.8225841195984662,
+      "combined_accuracy": 0.8742385791955094
+    },
+    "Domain:0.7 | EMBER:0.3": {
+      "domain_accuracy": 0.9086748855935383,
+      "ember_accuracy": 0.8225841195984662,
+      "combined_accuracy": 0.8828476557950166
+    }
+  },
+  "best_combined_accuracy": 0.8828476557950166
+}
