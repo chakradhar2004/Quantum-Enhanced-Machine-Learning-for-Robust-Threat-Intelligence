@@ -101,8 +101,21 @@ class ThreatScanner:
             print(f"\n{Colors.WARNING}⚡ Initiating quantum analysis due to low confidence...{Colors.ENDC}")
             
             # Extract features and analyze
-            feature_vector, _ = self.domain_scanner.extract_domain_features(domain)
-            quantum_results = self.quantum_analyzer.analyze(feature_vector)
+            feature_vector, feature_dict = self.domain_scanner.extract_domain_features(domain)
+            
+            if feature_dict:
+                qsvc_features = [
+                    feature_dict.get('length', 0),
+                    feature_dict.get('entropy', 0),
+                    feature_dict.get('vowel_ratio', 0),
+                    feature_dict.get('digit_ratio', 0)
+                ]
+                import numpy as np
+                if len(qsvc_features) == 4:
+                    X_q = np.array(qsvc_features).reshape(1, -1)
+                    quantum_results = self.quantum_analyzer.analyze(X_q)
+                else:
+                    print(f"{Colors.WARNING}⚠ Quantum feature mismatch. Skipping QSVC.{Colors.ENDC}")
         
         # Log scan
         self._log_domain_scan(results, quantum_results)
@@ -212,23 +225,29 @@ class ThreatScanner:
         ml_conf = results.get('ml_confidence', 0.0)
         
         if quantum_results:
-            is_anomalous = quantum_results.get('is_anomalous', False)
+            q_conf = quantum_results.get('confidence', quantum_results.get('quantum_confidence', 0.0))
+            final_confidence = (ml_conf * 0.7) + (q_conf * 0.3)
             
-            if is_anomalous or ml_pred == 'MALICIOUS':
+            if final_confidence >= 0.7:
                 verdict = 'THREAT DETECTED'
                 color = Colors.FAIL
                 icon = '🚨'
+            elif final_confidence >= 0.5:
+                verdict = 'SUSPICIOUS (Ensemble)'
+                color = Colors.WARNING
+                icon = '⚠'
             else:
                 verdict = 'BENIGN'
                 color = Colors.OKGREEN
                 icon = '✅'
+            print(f"  Ensemble Confidence: {final_confidence:.2%}\n")
         else:
             if ml_pred == 'MALICIOUS':
                 verdict = 'THREAT DETECTED'
                 color = Colors.FAIL
                 icon = '🚨'
-            elif ml_conf < CONFIDENCE_THRESHOLD:
-                verdict = 'SUSPICIOUS (Low Confidence)'
+            elif ml_pred == 'SUSPICIOUS':
+                verdict = 'SUSPICIOUS'
                 color = Colors.WARNING
                 icon = '⚠'
             else:

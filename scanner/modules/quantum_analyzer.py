@@ -99,16 +99,21 @@ class QuantumAnalyzer:
             except:
                 expected_features = 4
         
-        # Reduce features if needed
+        # Features reduction for file scanning which provides 16 features to the 4 input scaler
         if n_features > expected_features:
-            # Use simple averaging to reduce dimensionality
-            # Group features into bins and average
-            features_reduced = features.reshape(features.shape[0], expected_features, -1).mean(axis=2)
-            features = features_reduced
+            if n_features % expected_features == 0:
+                # Group features strictly into bins and average (e.g. 16->4 collapsing arrays)
+                features = features.reshape(features.shape[0], expected_features, -1).mean(axis=2)
+            else:
+                # Take subset if not divisible
+                features = features[:, :expected_features]
         elif n_features < expected_features:
-            # Pad with zeros if we have too few features
             padding = np.zeros((features.shape[0], expected_features - n_features))
             features = np.hstack([features, padding])
+            
+        # Ensure features are flattened into standard array format
+        if features.ndim > 2:
+            features = features.reshape(features.shape[0], -1)
         
         # If scaler is available, use it
         if self.scaler is not None:

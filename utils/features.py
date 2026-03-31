@@ -286,7 +286,9 @@ class FileFeatureExtractor:
         if PEFILE_AVAILABLE:
             try:
                 pe = pefile.PE(str(file_path), fast_load=True)
-                return self._extract_pe_features_pefile(pe, data)
+                features_out = self._extract_pe_features_pefile(pe, data)
+                pe.close()
+                return features_out
             except Exception:
                 pass
 
@@ -299,8 +301,8 @@ class FileFeatureExtractor:
             except Exception:
                 pass
 
-        # Fallback to generic byte-level features
-        return self._extract_generic_features(data)
+        # Strict validation: Do NOT fallback to generic features. Return None for non-PE.
+        return None
 
     def _safe_read(self, file_path: Path, max_bytes: int = 100 * 1024 * 1024) -> bytes:
         """Read file with size limit to prevent OOM."""

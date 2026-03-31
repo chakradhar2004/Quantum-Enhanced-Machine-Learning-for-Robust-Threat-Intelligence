@@ -165,16 +165,19 @@ class DomainScanner:
             # Get prediction probabilities
             proba = self.ml_model.predict_proba(features)[0]
             
-            # Assuming class 1 is malicious, class 0 is benign
-            malicious_prob = proba[1] if len(proba) > 1 else proba[0]
+            # Fixed classification logic
+            prob = float(proba[1] if len(proba) > 1 else proba[0])
+            print("Features:", features.tolist())
+            print("ML probability:", prob)
             
-            # Determine prediction
-            if malicious_prob >= MALWARE_THRESHOLD:
+            if prob >= 0.7:
                 prediction = "MALICIOUS"
+            elif prob >= 0.5:
+                prediction = "SUSPICIOUS"
             else:
                 prediction = "BENIGN"
             
-            return prediction, float(malicious_prob)
+            return prediction, prob
         
         except Exception as e:
             print(f"{Colors.FAIL}✗ Error during prediction: {e}{Colors.ENDC}")
@@ -251,14 +254,22 @@ class DomainScanner:
         results['ml_prediction'] = prediction
         results['ml_confidence'] = confidence
         
-        # Check if quantum analysis needed
-        if confidence < CONFIDENCE_THRESHOLD:
-            results['needs_quantum_analysis'] = True
-            print(f"  {Colors.WARNING}⚠ Low confidence ({confidence:.2%}) - Quantum analysis recommended{Colors.ENDC}")
-        else:
-            print(f"  Prediction: {prediction} (confidence: {confidence:.2%})")
+        # Structured Return Response
+        needs_quantum = 0.5 <= confidence < 0.7
+        results['needs_quantum_analysis'] = needs_quantum
         
-        return results
+        return {
+            "verdict": prediction,
+            "confidence": confidence,
+            "model_used": "RF",
+            "features_valid": True,
+            "domain": domain,
+            "features": feature_dict,
+            "needs_quantum_analysis": needs_quantum,
+            "reputation": results['reputation'],
+            "ml_prediction": prediction,
+            "ml_confidence": confidence
+        }
     
     def batch_scan_domains(self, domains: list) -> list:
         """
