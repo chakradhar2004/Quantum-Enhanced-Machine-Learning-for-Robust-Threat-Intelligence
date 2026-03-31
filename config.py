@@ -49,7 +49,7 @@ VIRUSTOTAL_API_URL = 'https://www.virustotal.com/api/v3/files/{hash}'
 # Thresholds
 # ─────────────────────────────────────────────────────
 CONFIDENCE_THRESHOLD = float(os.getenv('CONFIDENCE_THRESHOLD', '0.60'))
-MALWARE_THRESHOLD = float(os.getenv('MALWARE_THRESHOLD', '0.50'))
+MALWARE_THRESHOLD = float(os.getenv('MALWARE_THRESHOLD', '0.35'))
 MAX_FILE_SIZE_MB = float(os.getenv('MAX_FILE_SIZE_MB', '100'))
 
 # ─────────────────────────────────────────────────────

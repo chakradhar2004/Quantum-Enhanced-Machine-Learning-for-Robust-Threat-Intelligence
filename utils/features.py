@@ -324,24 +324,25 @@ class FileFeatureExtractor:
             has_signature = 1.0
         features.append(has_signature)
 
-        # 3-13. machine type (one-hot encoding 11 types)
+        # 3. characteristics_count
+        characteristics = pe.FILE_HEADER.Characteristics if hasattr(pe, 'FILE_HEADER') else 0
+        char_count = bin(characteristics).count('1')
+        features.append(float(char_count))
+
+        # 4. histogram_sum (should be file_size, but calculating byte histogram sum)
+        features.append(file_size)
+
+        # 5. entropy_mean
+        entropy = self._shannon_entropy(data)
+        features.append(entropy)
+
+
+        # 6-16. machine type (one-hot encoding 11 types)
         machine_type = pe.FILE_HEADER.Machine if hasattr(pe, 'FILE_HEADER') else 0
         machine_name = self._get_machine_name(machine_type)
 
         for name in self.MACHINE_NAMES_ORDER:
             features.append(1.0 if machine_name == name else 0.0)
-
-        # 14. characteristics_count
-        characteristics = pe.FILE_HEADER.Characteristics if hasattr(pe, 'FILE_HEADER') else 0
-        char_count = bin(characteristics).count('1')
-        features.append(float(char_count))
-
-        # 15. histogram_sum (should be file_size, but calculating byte histogram sum)
-        features.append(file_size)
-
-        # 16. entropy_mean
-        entropy = self._shannon_entropy(data)
-        features.append(entropy)
 
         # Ensure exactly 16 features
         features = features[:self.N_FEATURES]
@@ -362,23 +363,24 @@ class FileFeatureExtractor:
         has_signature = 1.0 if binary.has_authenticode() else 0.0
         features.append(has_signature)
 
-        # 3-13. machine type (one-hot encoding)
+        # 3. characteristics_count
+        char_count = len(binary.header.characteristics) if hasattr(binary.header, 'characteristics') else 0
+        features.append(float(char_count))
+
+        # 4. histogram_sum
+        features.append(file_size)
+
+        # 5. entropy_mean
+        entropy = self._shannon_entropy(data)
+        features.append(entropy)
+
+
+        # 6-16. machine type (one-hot encoding)
         machine = binary.header.machine if hasattr(binary.header, 'machine') else 0
         machine_name = self._get_machine_name(machine)
 
         for name in self.MACHINE_NAMES_ORDER:
             features.append(1.0 if machine_name == name else 0.0)
-
-        # 14. characteristics_count
-        char_count = len(binary.header.characteristics) if hasattr(binary.header, 'characteristics') else 0
-        features.append(float(char_count))
-
-        # 15. histogram_sum
-        features.append(file_size)
-
-        # 16. entropy_mean
-        entropy = self._shannon_entropy(data)
-        features.append(entropy)
 
         # Ensure exactly 16 features
         features = features[:self.N_FEATURES]
@@ -439,21 +441,21 @@ class FileFeatureExtractor:
         has_sig = 1.0 if b'Signature' in data or b'PKCS' in data else 0.0
         features.append(has_sig)
 
-        # 3-13. machine type (default to ??? for all)
-        for _ in self.MACHINE_NAMES_ORDER:
-            features.append(0.0)
-        features[3] = 1.0  # Set ??? to 1.0
-
-        # 14. characteristics_count (estimate from file structure)
+        # 3. characteristics_count (estimate from file structure)
         char_count = 5.0 if data[:2] == b'MZ' else 0.0
         features.append(char_count)
 
-        # 15. histogram_sum (file_size)
+        # 4. histogram_sum (file_size)
         features.append(file_size)
 
-        # 16. entropy_mean
+        # 5. entropy_mean
         entropy = self._shannon_entropy(data)
         features.append(entropy)
+
+
+        # 6-16. machine type (default to ??? for all)
+        for name in self.MACHINE_NAMES_ORDER:
+            features.append(1.0 if name == '???' else 0.0)
 
         # Ensure exactly 16 features
         features = features[:self.N_FEATURES]
