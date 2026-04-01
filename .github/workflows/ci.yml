@@ -58,4 +58,5 @@ jobs:
           pip install bandit safety
           bandit -r utils/ config.py cli.py -ll
           pip install -r requirements.txt
+          pip install pytest pytest-cov
           safety check
