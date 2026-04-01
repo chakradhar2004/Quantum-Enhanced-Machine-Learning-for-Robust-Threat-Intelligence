@@ -87,45 +87,42 @@ class QuantumAnalyzer:
         if features.ndim == 1:
             features = features.reshape(1, -1)
         
-        # If we have more features than scaler expects, reduce dimensionality
+        # User Requirement: ALWAYS return exactly 5 features for quantum analysis
+        # Output must be (n_samples, 5)
         n_features = features.shape[1]
+        expected_features = 5
         
-        # Try to get expected feature count from scaler
-        expected_features = 4  # Default for quantum models
-        if self.scaler is not None:
-            try:
-                # Try to determine expected features from scaler
-                expected_features = self.scaler.n_features_in_
-            except:
-                expected_features = 4
-        
-        # Features reduction for file scanning which provides 16 features to the 4 input scaler
+        # Features reduction/padding to match expected 5-feature vector
         if n_features > expected_features:
             if n_features % expected_features == 0:
-                # Group features strictly into bins and average (e.g. 16->4 collapsing arrays)
+                # Group features strictly into bins and average (e.g. 15->5 collapsing arrays)
                 features = features.reshape(features.shape[0], expected_features, -1).mean(axis=2)
             else:
-                # Take subset if not divisible
+                # Take first 5 features
                 features = features[:, :expected_features]
         elif n_features < expected_features:
+            # Pad with zeros to reach 5 features
             padding = np.zeros((features.shape[0], expected_features - n_features))
             features = np.hstack([features, padding])
             
-        # Ensure features are flattened into standard array format
-        if features.ndim > 2:
-            features = features.reshape(features.shape[0], -1)
+        # Ensure features are 2D (n_samples, 5)
+        features = features.reshape(features.shape[0], expected_features)
         
-        # If scaler is available, use it
+        # Scaling logic
         if self.scaler is not None:
             try:
-                scaled_features = self.scaler.transform(features)
-                return scaled_features
+                # ONLY use scaler if it matches our expected feature count
+                # This prevents crashes from legacy 4-feature scalers
+                if hasattr(self.scaler, 'n_features_in_') and self.scaler.n_features_in_ == expected_features:
+                    return self.scaler.transform(features)
+                else:
+                    # Incompatible scaler - fallback to manual normalization
+                    pass
             except Exception as e:
-                print(f"{Colors.WARNING}⚠ Error scaling features: {e}{Colors.ENDC}")
+                # print(f"{Colors.WARNING}⚠ Error scaling features: {e}{Colors.ENDC}")
+                pass
         
-        # Fallback: simple normalization
-
-        # Min-max scaling to [0, 1]
+        # Fallback: simple normalization to [0, 1] range per sample
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             min_vals = np.min(features, axis=1, keepdims=True)
@@ -133,11 +130,12 @@ class QuantumAnalyzer:
             
             # Avoid division by zero
             range_vals = max_vals - min_vals
-            range_vals[range_vals == 0] = 1
+            range_vals[range_vals == 0] = 1.0
             
             normalized = (features - min_vals) / range_vals
         
-        return normalized
+        # FINAL GUARANTEE: shape is (n_samples, 5)
+        return normalized.astype(np.float32)
     
     def quantum_circuit_simulation(self, features: np.ndarray) -> Dict[str, Any]:
         """

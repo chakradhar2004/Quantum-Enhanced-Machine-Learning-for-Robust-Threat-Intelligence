@@ -273,14 +273,15 @@ class FileFeatureExtractor:
             Feature vector shaped (1, 16) with EMBER-compatible features or None on failure
         """
         file_path = Path(file_path)
+        default_features = np.zeros((1, self.N_FEATURES), dtype=np.float32)
 
         if not file_path.exists() or not file_path.is_file():
-            return None
+            return default_features
 
         try:
             data = self._safe_read(file_path)
         except Exception:
-            return None
+            return default_features
 
         # Try PE-specific extraction using pefile
         if PEFILE_AVAILABLE:
@@ -301,8 +302,8 @@ class FileFeatureExtractor:
             except Exception:
                 pass
 
-        # Strict validation: Do NOT fallback to generic features. Return None for non-PE.
-        return None
+        # Fallback to generic features
+        return self._extract_generic_features(data)
 
     def _safe_read(self, file_path: Path, max_bytes: int = 100 * 1024 * 1024) -> bytes:
         """Read file with size limit to prevent OOM."""

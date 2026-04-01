@@ -108,10 +108,11 @@ class ThreatScanner:
                     feature_dict.get('length', 0),
                     feature_dict.get('entropy', 0),
                     feature_dict.get('vowel_ratio', 0),
-                    feature_dict.get('digit_ratio', 0)
+                    feature_dict.get('digit_ratio', 0),
+                    feature_dict.get('consonant_ratio', 0)
                 ]
                 import numpy as np
-                if len(qsvc_features) == 4:
+                if len(qsvc_features) == 5:
                     X_q = np.array(qsvc_features).reshape(1, -1)
                     quantum_results = self.quantum_analyzer.analyze(X_q)
                 else:

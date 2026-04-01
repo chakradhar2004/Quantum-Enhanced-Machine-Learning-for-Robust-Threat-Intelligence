@@ -165,14 +165,16 @@ class TestFileFeatureExtractor:
         try:
             vec = self.extractor.extract(path)
             assert vec is not None
-            # Feature index 10 is the MZ header detector
-            assert vec[0, 10] == 1.0
+            # Feature index 2 is characteristics_count (set to 5.0 for MZ)
+            assert vec[0, 2] == 5.0
         finally:
             path.unlink()
 
     def test_nonexistent_file(self):
         vec = self.extractor.extract(Path("/nonexistent/file.bin"))
-        assert vec is None
+        assert vec is not None
+        assert vec.shape == (1, 16)
+        assert np.all(vec == 0)
 
     def test_deterministic(self):
         with tempfile.NamedTemporaryFile(delete=False, suffix='.bin') as f:
