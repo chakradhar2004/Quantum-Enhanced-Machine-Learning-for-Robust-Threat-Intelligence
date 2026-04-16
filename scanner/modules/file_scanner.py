@@ -18,6 +18,7 @@ from utils.features import FileFeatureExtractor
 
 from ..config.config import (
     EMBER_MODEL_PATH, VIRUSTOTAL_API_URL, MAX_FILE_SIZE_MB,
+    MALWARE_THRESHOLD, CONFIDENCE_THRESHOLD,
     Colors
 )
 
@@ -115,9 +116,10 @@ class FileScanner:
             prob = self.ml_model.predict_proba(features)[0][1]
             print("ML probability:", float(prob))
             
-            if prob >= 0.7:
+            # Use config thresholds — consistent with cli.py
+            if prob >= MALWARE_THRESHOLD:       # 0.50 → MALICIOUS
                 verdict = "MALICIOUS"
-            elif prob >= 0.5:
+            elif prob >= MALWARE_THRESHOLD - 0.1:  # 0.40-0.49 → SUSPICIOUS
                 verdict = "SUSPICIOUS"
             else:
                 verdict = "BENIGN"
@@ -161,8 +163,8 @@ class FileScanner:
             
         verdict, confidence = self.predict_malware(features)
         
-        # Only invoke quantum if probability is strictly between [0.5, 0.7)
-        needs_quantum = 0.5 <= confidence < 0.7
+        # Only invoke quantum if confidence is near the decision boundary
+        needs_quantum = abs(confidence - MALWARE_THRESHOLD) < (1.0 - CONFIDENCE_THRESHOLD)
         
         return {
             "verdict": verdict,
